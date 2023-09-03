@@ -70,6 +70,9 @@ private:
   std::vector<ConnWithCtx *> conns_{};
   std::map<uint32_t, Context *> id2ctx_{};
   ConnPoller bg_poller_{};
+
+public:
+  Mr_info expose_memory(uint32_t conn_id, void* buffer, size_t size); 
 };
 
 } // namespace rdma

@@ -222,6 +222,24 @@ auto Conn::bufferPage(uint32_t id) -> void * {
   return buffer_pages_[id];
 }
 
+Mr_info Conn::expose_memory(void* tmp_buffer, size_t size) {
+  tmp_buffer_mr_ = ibv_reg_mr(pd_, tmp_buffer, size,
+                              IBV_ACCESS_LOCAL_WRITE | IBV_ACCESS_REMOTE_READ | IBV_ACCESS_REMOTE_WRITE);
+  if(!tmp_buffer_mr_) {
+    return {1, 0, 0};
+  }
+  checkp(tmp_buffer_mr_, "fail to expose tmp buffer mr");
+  tmp_buffer_lk_ = tmp_buffer_mr_->lkey;
+  tmp_buffer_rk_ = tmp_buffer_mr_->rkey;
+  return {tmp_buffer_rk_, tmp_buffer_lk_};                            
+}
+
+int Conn::delete_tmp_mr() {
+  tmp_buffer_lk_ = 0;
+  tmp_buffer_rk_ = 0;
+  return ibv_dereg_mr(tmp_buffer_mr_);
+}
+
 auto Conn::remoteKey() -> uint32_t { return remote_buffer_key_; }
 
 auto Conn::localKey() -> uint32_t { return buffer_mr_->lkey; }

@@ -80,6 +80,10 @@ auto Client::call(uint32_t conn_id, uint32_t rpc_id, const message_t &request,
   return conns_[conn_id]->call(rpc_id, request, response);
 }
 
+Mr_info Client::expose_memory(uint32_t conn_id, void* buffer, size_t size) {
+  return conns_[conn_id]->expose_memory(buffer, size);
+}
+
 Client::~Client() {
   for (auto conn : conns_) {
     bg_poller_.deregisterConn(conn->id_);

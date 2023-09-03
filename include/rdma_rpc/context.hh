@@ -69,6 +69,9 @@ protected:
   uint32_t id_;
   Conn *conn_{nullptr}; // created in which Conn
   BufferMeta meta_{};
+
+public:
+  Conn* get_conn();
 };
 
 } // namespace rdma

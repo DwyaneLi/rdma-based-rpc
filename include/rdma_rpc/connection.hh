@@ -16,6 +16,14 @@
 
 namespace rdma {
 
+struct Mr_info
+{
+  int err_0{};
+  uint32_t remote_buffer_key_{0};
+  uint32_t local_buffer_key_{0};
+};
+  
+
 class Conn {
   friend class Client;
   friend class Server;
@@ -74,6 +82,10 @@ public:
   auto remoteKey() -> uint32_t;
   auto localKey() -> uint32_t;
 
+public:
+  Mr_info expose_memory(void* tmp_buffer, size_t size);
+  int delete_tmp_mr();
+
 protected:
   static auto onRecv(int fd, short what, void *arg) -> void;
 
@@ -91,6 +103,10 @@ protected:
   ibv_mr *buffer_mr_{nullptr};
   uint32_t remote_buffer_key_{0};
   rdma_conn_param param_{};
+
+  ibv_mr *tmp_buffer_mr_{nullptr};
+  uint32_t tmp_buffer_lk_{0};
+  uint32_t tmp_buffer_rk_{0};
 };
 
 class ConnPoller {
@@ -113,6 +129,8 @@ private:
   std::list<Conn *> conns_{};
   std::thread poller_{};
 };
+
+
 
 } // namespace rdma
 

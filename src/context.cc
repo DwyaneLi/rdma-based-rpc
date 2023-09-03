@@ -67,4 +67,8 @@ auto ConnCtx::headerLength() -> uint32_t { return sizeof(MessageHeader); }
 auto ConnCtx::readableLength() -> uint32_t {
   return header().msg_len_ + sizeof(MessageHeader);
 }
+
+Conn* ConnCtx::get_conn() {
+  return conn_;
+}
 } // namespace rdma
