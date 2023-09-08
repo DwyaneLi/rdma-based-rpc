@@ -82,10 +82,6 @@ public:
   auto remoteKey() -> uint32_t;
   auto localKey() -> uint32_t;
 
-public:
-  Mr_info expose_memory(void* tmp_buffer, size_t size);
-  int delete_tmp_mr();
-
 protected:
   static auto onRecv(int fd, short what, void *arg) -> void;
 
@@ -107,6 +103,12 @@ protected:
   ibv_mr *tmp_buffer_mr_{nullptr};
   uint32_t tmp_buffer_lk_{0};
   uint32_t tmp_buffer_rk_{0};
+
+public:
+  Mr_info expose_memory(void* tmp_buffer, size_t size);
+  int delete_tmp_mr();
+  uint32_t tmp_buff_lk();
+  uint32_t tmp_buff_rk(); 
 };
 
 class ConnPoller {

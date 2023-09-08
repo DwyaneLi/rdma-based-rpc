@@ -240,6 +240,13 @@ int Conn::delete_tmp_mr() {
   return ibv_dereg_mr(tmp_buffer_mr_);
 }
 
+uint32_t Conn::tmp_buff_lk() {
+  return tmp_buffer_lk_;
+}
+uint32_t Conn::tmp_buff_rk() {
+  return tmp_buffer_rk_;
+}
+
 auto Conn::remoteKey() -> uint32_t { return remote_buffer_key_; }
 
 auto Conn::localKey() -> uint32_t { return buffer_mr_->lkey; }

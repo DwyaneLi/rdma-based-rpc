@@ -84,6 +84,10 @@ Mr_info Client::expose_memory(uint32_t conn_id, void* buffer, size_t size) {
   return conns_[conn_id]->expose_memory(buffer, size);
 }
 
+int Client::delete_tmp_mr(uint32_t conn_id) {
+  return conns_[conn_id]->delete_tmp_mr();
+}
+
 Client::~Client() {
   for (auto conn : conns_) {
     bg_poller_.deregisterConn(conn->id_);

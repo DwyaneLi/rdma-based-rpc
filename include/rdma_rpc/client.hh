@@ -73,6 +73,7 @@ private:
 
 public:
   Mr_info expose_memory(uint32_t conn_id, void* buffer, size_t size); 
+  int delete_tmp_mr(uint32_t conn_id); 
 };
 
 } // namespace rdma

@@ -2,6 +2,10 @@
 #include "hello.pb.h"
 
 #include <thread>
+#include <unistd.h>
+#include <iostream>
+#include <stdint.h>
+/*
 
 auto main([[gnu::unused]] int argc, char *argv[]) -> int {
   rdma::Client c;
@@ -32,5 +36,52 @@ auto main([[gnu::unused]] int argc, char *argv[]) -> int {
   t2.join();
   t3.join();
   t4.join();
+  return 0;
+}
+
+*/
+auto main([[gnu::unused]] int argc, char *argv[]) -> int {
+  rdma::Client c;
+
+  auto conn_id_1 = c.connect(argv[1], argv[2]);
+
+  char* write_buff = "hello";
+
+  void* read_buff = nullptr;
+  read_buff = alloc(10);
+
+  std::cout << "test wirte" << std::endl;
+  auto m_ifo_1 = c.expose_memory(conn_id_1, write_buff, 6);
+  echo::Hello response;
+  echo::write_info w_info;
+  w_info.set_data((uint64_t)(uintptr_t)write_buff);
+  w_info.set_size(6);
+  w_info.set_origin_key(m_ifo_1.remote_buffer_key_);
+  rdma::Status s;
+  s = c.call(conn_id_1, 0, w_info, response);
+  if(not s.ok()) {
+    std::cout << s.whatHappened() << std::endl;
+  }
+  printf("receive response: \"%s\"\n", response.greeting().c_str());
+  auto res = c.delete_tmp_mr(conn_id_1);
+  if(res != 0) {
+    std::cout << "delete mr error" << std::endl;
+  }
+
+  auto m_ifo_2 = c.expose_memory(conn_id_1, read_buff, 10);
+  echo::read_info r_info;
+  read_info.set_data((uint64_t)(uintptr_t)read_buff);
+  r_info.set_size(10);
+  w_info.set_origin_key(m_ifo_2.remote_buffer_key_);
+  s = c.call(conn_id_1, 1, r_info, response);
+    if(not s.ok()) {
+    std::cout << s.whatHappened() << std::endl;
+  }
+  printf("receive response: \"%s\"\n", response.greeting().c_str());
+  auto res = c.delete_tmp_mr(conn_id_1);
+  if(res != 0) {
+    std::cout << "delete mr error" << std::endl;
+  }
+  
   return 0;
 }
