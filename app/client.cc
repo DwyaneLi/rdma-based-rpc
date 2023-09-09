@@ -6,7 +6,7 @@
 #include <iostream>
 #include <stdint.h>
 /*
-
+// 副本
 auto main([[gnu::unused]] int argc, char *argv[]) -> int {
   rdma::Client c;
 
