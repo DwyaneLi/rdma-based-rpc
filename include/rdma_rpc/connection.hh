@@ -18,7 +18,7 @@ namespace rdma {
 
 struct Mr_info
 {
-  int err_{};
+  int err_{0};
   uint32_t remote_buffer_key_{0};
   uint32_t local_buffer_key_{0};
 };

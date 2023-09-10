@@ -81,6 +81,7 @@ auto Client::call(uint32_t conn_id, uint32_t rpc_id, const message_t &request,
 }
 
 Mr_info Client::expose_memory(uint32_t conn_id, void* buffer, size_t size) {
+  info("[INFO] now in client level expose memory");
   return conns_[conn_id]->expose_memory(buffer, size);
 }
 

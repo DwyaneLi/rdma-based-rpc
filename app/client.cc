@@ -53,7 +53,7 @@ auto main([[gnu::unused]] int argc, char *argv[]) -> int {
   std::cout << "test wirte" << std::endl;
   auto m_ifo_1 = c.expose_memory(conn_id_1, write_buff, 6);
   if(m_ifo_1.err_) {
-    std::cout << "expose memory error" << std::endl;
+    std::cout << "[ERROR]expose memory error : " << m_ifo_1.err_ << std::endl;
     return 0;
   }
   echo::Hello response;
