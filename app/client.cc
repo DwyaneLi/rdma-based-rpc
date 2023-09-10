@@ -46,7 +46,7 @@ auto main([[gnu::unused]] int argc, char *argv[]) -> int {
   auto conn_id_1 = c.connect(argv[1], argv[2]);
 
   char* write_buff = (char*)malloc(6);
-  strcpy(write_buff, "hello")
+  strcpy(write_buff, "hello");
 
   void* read_buff = malloc(10);
 
