@@ -47,7 +47,7 @@ auto main([[gnu::unused]] int argc, char *argv[]) -> int {
     auto connection = static_cast<rdma::ConnCtx*>(&handle)->get_conn();
     connection->expose_memory(buffer, 10);    
     strcpy(buffer, "hello,too");
-    connection->postWrite(&handle, buffer, 10, connection->tmp_buff_lk(), (void*)(uintptr_t)r_info.data(), r_info.origin_key());
+    //connection->postWrite(&handle, buffer, 10, connection->tmp_buff_lk(), (void*)(uintptr_t)r_info.data(), r_info.origin_key());
     
     echo::Hello response;
     response.set_greeting("now, op read ok!");
