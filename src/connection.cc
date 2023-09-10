@@ -148,6 +148,7 @@ auto Conn::postRead(void *ctx, void *local_addr, uint32_t length, uint32_t lkey,
 auto Conn::postWrite(void *ctx, void *local_addr, uint32_t length,
                      uint32_t lkey, void *remote_addr, uint32_t rkey,
                      bool need_inline) -> void {
+  info("[INFO] now use write")
   ibv_sge sge{
       (uint64_t)local_addr, // addr
       length,               // length
