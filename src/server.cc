@@ -167,6 +167,10 @@ auto Server::Context::advance(const ibv_wc &wc) -> void {
     break;
   }
   case IBV_WC_RDMA_READ: {
+    // handle中使用的read操作
+    if(state_ == FilledWithRequest) {
+      break;
+    }
     assert(state_ == ReadingRequest);
     state_ = FilledWithRequest;
     reinterpret_cast<ConnWithCtx *>(conn_)->s_->bg_handlers_.enqueue(
@@ -174,6 +178,10 @@ auto Server::Context::advance(const ibv_wc &wc) -> void {
     break;
   }
   case IBV_WC_RDMA_WRITE: {
+    // handle中使用的write操作
+    if(state_ == FilledWithRequest) {
+      break;
+    }
     assert(state_ == WritingResponse);
     state_ = Vacant;
     prepare();
