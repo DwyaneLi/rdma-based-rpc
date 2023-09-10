@@ -52,6 +52,10 @@ auto main([[gnu::unused]] int argc, char *argv[]) -> int {
 
   std::cout << "test wirte" << std::endl;
   auto m_ifo_1 = c.expose_memory(conn_id_1, write_buff, 6);
+  if(m_ifo_1.err_) {
+    std::cout << "expose memory error" << std::endl;
+    return 0;
+  }
   echo::Hello response;
   echo::write_info w_info;
   w_info.set_data((uint64_t)(uintptr_t)write_buff);
@@ -69,6 +73,10 @@ auto main([[gnu::unused]] int argc, char *argv[]) -> int {
   }
 
   auto m_ifo_2 = c.expose_memory(conn_id_1, read_buff, 10);
+  if(m_ifo_2.err_) {
+    std::cout << "expose memory error" << std::endl;
+    return 0;
+  }
   echo::read_info r_info;
   read_info.set_data((uint64_t)(uintptr_t)read_buff);
   r_info.set_size(10);

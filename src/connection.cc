@@ -231,7 +231,7 @@ Mr_info Conn::expose_memory(void* tmp_buffer, size_t size) {
   checkp(tmp_buffer_mr_, "fail to expose tmp buffer mr");
   tmp_buffer_lk_ = tmp_buffer_mr_->lkey;
   tmp_buffer_rk_ = tmp_buffer_mr_->rkey;
-  return {tmp_buffer_rk_, tmp_buffer_lk_};                            
+  return {0, tmp_buffer_rk_, tmp_buffer_lk_};                            
 }
 
 int Conn::delete_tmp_mr() {
