@@ -87,7 +87,7 @@ auto main([[gnu::unused]] int argc, char *argv[]) -> int {
   }
   std::cout << (char*)read_buff << std::endl;
   printf("receive response: \"%s\"\n", response.greeting().c_str());
-  auto res = c.delete_tmp_mr(conn_id_1);
+  res = c.delete_tmp_mr(conn_id_1);
   if(res != 0) {
     std::cout << "delete mr error" << std::endl;
   }

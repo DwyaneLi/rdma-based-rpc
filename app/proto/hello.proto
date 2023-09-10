@@ -7,7 +7,7 @@ message Hello {
   string greeting = 1;
 }
 
-message wirte_info {
+message write_info {
   uint64 data = 1;
   uint64 size = 2;
   uint32 origin_key = 3;

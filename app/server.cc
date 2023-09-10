@@ -34,7 +34,8 @@ auto main([[gnu::unused]] int argc, char *argv[]) -> int {
     connection->postRead(this, buffer, 6, connection->tmp_buff_lk, (void*)(uintptr_t)w_info.data(), w_info.origin_key());
     
     echo::Hello response;
-    response.set_greeting("now, op write ok!" + std::to_string((char*)buffer));
+    std::string ss = buffer;
+    response.set_greeting("now, op write ok!" + ss);
     handle.setResponse(response);
     connection->delete_tmp_mr();
   });
