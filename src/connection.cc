@@ -226,8 +226,9 @@ Mr_info Conn::expose_memory(void* tmp_buffer, size_t size) {
   info("[INFO] now in connetion level expose memory");
   tmp_buffer_mr_ = ibv_reg_mr(pd_, tmp_buffer, size,
                               IBV_ACCESS_LOCAL_WRITE | IBV_ACCESS_REMOTE_READ | IBV_ACCESS_REMOTE_WRITE);
+
   if(tmp_buffer_mr_ == nullptr) {
-    info("[ERROR] can not register tmp mr");
+    info("[ERROR] can not register tmp mr, tmp mr is null");
     return {1, 0, 0};
   }
 

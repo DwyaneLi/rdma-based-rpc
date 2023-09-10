@@ -45,15 +45,15 @@ auto main([[gnu::unused]] int argc, char *argv[]) -> int {
 
   auto conn_id_1 = c.connect(argv[1], argv[2]);
 
-  char* write_buff = "hello";
+  char* write_buff = (char*)malloc(6);
+  strcpy(write_buff, "hello")
 
-  void* read_buff = nullptr;
-  read_buff = malloc(10);
+  void* read_buff = = malloc(10);
 
   std::cout << "test wirte" << std::endl;
   auto m_ifo_1 = c.expose_memory(conn_id_1, write_buff, 6);
   if(m_ifo_1.err_) {
-    std::cout << "[ERROR]expose memory error : " << m_ifo_1.err_ << std::endl;
+    std::cout << "[ERROR] expose memory error : " << m_ifo_1.err_ << std::endl;
     return 0;
   }
   echo::Hello response;
