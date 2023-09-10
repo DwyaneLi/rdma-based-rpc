@@ -148,6 +148,7 @@ Server::Context::~Context() {}
 
 auto Server::Context::prepare() -> void {
   state_ = WaitingForBufferMeta;
+  info("[INFO] state: WaitingForBufferMeta");
   conn_->postRecv(this, rawBuf(), rawBufLength(), conn_->localKey());
 }
 
@@ -156,10 +157,12 @@ auto Server::Context::advance(const ibv_wc &wc) -> void {
   case IBV_WC_RECV: {
     assert(state_ == WaitingForBufferMeta);
     if (messageType() == MessageType::ImmRequest) {
+      info("[INFO] state: WaitingForBufferMeta --> FilledWithRequest");
       state_ = FilledWithRequest;
       reinterpret_cast<ConnWithCtx *>(conn_)->s_->bg_handlers_.enqueue(
           &Context::handler, this);
     } else {
+      info("[INFO] state: WaitingForBufferMeta --> ReadingRequest");
       state_ = ReadingRequest;
       conn_->postRead(this, rawBuf(), readableLength(), conn_->localKey(),
                       header().addr_, conn_->remoteKey());
@@ -169,9 +172,11 @@ auto Server::Context::advance(const ibv_wc &wc) -> void {
   case IBV_WC_RDMA_READ: {
     // handle中使用的read操作
     if(state_ == FilledWithRequest) {
+      info("[INFO] state: FilledWithRequest USE READ");
       break;
     }
     assert(state_ == ReadingRequest);
+    info("[INFO] state: ReadingRequest --> FilledWithRequest");
     state_ = FilledWithRequest;
     reinterpret_cast<ConnWithCtx *>(conn_)->s_->bg_handlers_.enqueue(
         &Context::handler, this);
@@ -180,15 +185,17 @@ auto Server::Context::advance(const ibv_wc &wc) -> void {
   case IBV_WC_RDMA_WRITE: {
     // handle中使用的write操作
     if(state_ == FilledWithRequest) {
+      info("[INFO] state: FilledWithRequest USE WRITE");
       break;
     }
     assert(state_ == WritingResponse);
+    info("[INFO] state: WritingResponse --> Vacant");
     state_ = Vacant;
     prepare();
     break;
   }
   default: {
-    info("unexpected wc opcode: %d", wc.opcode);
+    info("unexpected wc opcode: %d now state: %d", wc.opcode, state_);
     break;
   }
   }
@@ -196,6 +203,7 @@ auto Server::Context::advance(const ibv_wc &wc) -> void {
 
 auto Server::Context::handler() -> void {
   static_cast<ConnWithCtx *>(conn_)->s_->getHandler(header().rpc_id_)(*this);
+  info("[INFO] state: FilledWithRequest --> WritingResponse");
   state_ = WritingResponse;
   conn_->postWriteImm(this, rawBuf(), readableLength(), conn_->localKey(),
                       header().addr_, conn_->remoteKey(), header().ctx_id_);
