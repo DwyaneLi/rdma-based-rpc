@@ -184,6 +184,7 @@ auto Server::Context::advance(const ibv_wc &wc) -> void {
   }
   case IBV_WC_RDMA_WRITE: {
     // handle中使用的write操作
+    info("[INFO] wc write!");
     if(state_ == FilledWithRequest) {
       info("[INFO] state: FilledWithRequest USE WRITE");
       break;
