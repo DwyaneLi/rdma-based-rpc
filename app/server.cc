@@ -43,7 +43,7 @@ auto main([[gnu::unused]] int argc, char *argv[]) -> int {
   s.registerHandler(1, [](rdma::RPCHandle &handle) -> void {
     echo::read_info r_info;
     handle.getRequest(r_info);
-    char* buffer = malloc(10);
+    char* buffer = (char*)malloc(10);
     strcpy(buffer, "hello,too");
     auto connection = static_cast<rdma::ConnCtx*>(&handle)->get_conn();
     connection->expose_memory(buffer, 10);
