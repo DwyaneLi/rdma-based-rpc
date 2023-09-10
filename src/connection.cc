@@ -66,6 +66,7 @@ auto Conn::poll() -> void {
   // we use wc.wr_id to match the Connection Context
   for (int i = 0; i < ret; i++) {
     info("[INFO] poll %d, wc.opcode = %d, wr_id = %d", i, wc[i].opcode, wc[i].wr_id);
+    if(wc[i]->opcode == 0) continue;
     reinterpret_cast<ConnCtx *>(wc[i].wr_id)->advance(wc[i]);
   }
 
