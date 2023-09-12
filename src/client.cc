@@ -81,7 +81,7 @@ auto Client::call(uint32_t conn_id, uint32_t rpc_id, const message_t &request,
 }
 
 Mr_info Client::expose_memory(uint32_t conn_id, void* buffer, size_t size) {
-  info("[INFO] now in client level expose memory");
+  //info("[INFO] now in client level expose memory");
   return conns_[conn_id]->expose_memory(buffer, size);
 }
 
@@ -103,7 +103,7 @@ auto Client::Context::call(uint32_t rpc_id, const message_t &request) -> void {
   assert(state_ == Vacant);
   setRequest(request);
   header().rpc_id_ = rpc_id;
-  info("[INFO] state: Vacant --> SendingBufferMeta");
+  //info("[INFO] state: Vacant --> SendingBufferMeta");
   state_ = SendingBufferMeta;
 
   // after filled with request, context will be handled by background poller
@@ -126,7 +126,7 @@ auto Client::Context::advance(const ibv_wc &wc) -> void {
   switch (wc.opcode) {
   case IBV_WC_SEND: {
     assert(state_ == SendingBufferMeta);
-    info("[INFO] state: SendingBufferMeta --> WaitingForResponse");
+    //info("[INFO] state: SendingBufferMeta --> WaitingForResponse");
     state_ = WaitingForResponse;
     break;
   }
@@ -138,7 +138,7 @@ auto Client::Context::advance(const ibv_wc &wc) -> void {
       return;
     }
     assert(state_ == WaitingForResponse);
-    info("[INFO] state: WaitingForResponse --> Vacant");
+    //info("[INFO] state: WaitingForResponse --> Vacant");
     state_ = Vacant;
     l_.unlock();
     break;

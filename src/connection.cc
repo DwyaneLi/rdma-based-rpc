@@ -65,7 +65,7 @@ auto Conn::poll() -> void {
 
   // we use wc.wr_id to match the Connection Context
   for (int i = 0; i < ret; i++) {
-    info("[INFO] poll %d, wc.opcode = %d, wr_id = %d", i, wc[i].opcode, wc[i].wr_id);
+    //info("[INFO] poll %d, wc.opcode = %d, wr_id = %d", i, wc[i].opcode, wc[i].wr_id);
     reinterpret_cast<ConnCtx *>(wc[i].wr_id)->advance(wc[i]);
   }
 
@@ -149,7 +149,7 @@ auto Conn::postRead(void *ctx, void *local_addr, uint32_t length, uint32_t lkey,
 auto Conn::postWrite(void *ctx, void *local_addr, uint32_t length,
                      uint32_t lkey, void *remote_addr, uint32_t rkey,
                      bool need_inline) -> void {
-  info("[INFO] now use write");
+  //info("[INFO] now use write");
   ibv_sge sge{
       (uint64_t)local_addr, // addr
       length,               // length
@@ -225,7 +225,7 @@ auto Conn::bufferPage(uint32_t id) -> void * {
 }
 
 Mr_info Conn::expose_memory(void* tmp_buffer, size_t size) {
-  info("[INFO] now in connetion level expose memory");
+  //info("[INFO] now in connetion level expose memory");
   tmp_buffer_mr_ = ibv_reg_mr(pd_, tmp_buffer, size,
                               IBV_ACCESS_LOCAL_WRITE | IBV_ACCESS_REMOTE_READ | IBV_ACCESS_REMOTE_WRITE);
 
