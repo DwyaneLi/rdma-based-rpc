@@ -242,7 +242,7 @@ Mr_info Conn::expose_memory(void* tmp_buffer, size_t size) {
 int Conn::delete_tmp_mr() {
   tmp_buffer_lk_ = 0;
   tmp_buffer_rk_ = 0;
-  tmp_buffer_mr_ = nullptr
+  tmp_buffer_mr_ = nullptr;
   return ibv_dereg_mr(tmp_buffer_mr_);
 }
 
