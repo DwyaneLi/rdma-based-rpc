@@ -80,7 +80,7 @@ auto main([[gnu::unused]] int argc, char *argv[]) -> int {
   echo::read_info r_info;
   r_info.set_data((uint64_t)(uintptr_t)read_buff);
   r_info.set_size(10);
-  w_info.set_origin_key(m_ifo_2.remote_buffer_key_);
+  r_info.set_origin_key(m_ifo_2.remote_buffer_key_);
   s = c.call(conn_id_1, 1, r_info, response);
     if(not s.ok()) {
     std::cout << s.whatHappened() << std::endl;
