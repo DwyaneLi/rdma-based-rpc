@@ -164,7 +164,7 @@ auto Server::Context::advance(const ibv_wc &wc) -> void {
     } else {
       //info("[INFO] state: WaitingForBufferMeta --> ReadingRequest");
       state_ = ReadingRequest;
-      conn_->postRead(this, rawBuf(), readableLength(), conn_->localKey(),
+      auto r = conn_->postRead(this, rawBuf(), readableLength(), conn_->localKey(),
                       header().addr_, conn_->remoteKey());
     }
     break;

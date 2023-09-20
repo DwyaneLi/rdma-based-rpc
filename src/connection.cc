@@ -118,7 +118,7 @@ auto Conn::postSend(void *ctx, void *local_addr, uint32_t length, uint32_t lkey,
 }
 
 auto Conn::postRead(void *ctx, void *local_addr, uint32_t length, uint32_t lkey,
-                    void *remote_addr, uint32_t rkey) -> void {
+                    void *remote_addr, uint32_t rkey) -> int {
   ibv_sge sge{
       (uint64_t)local_addr, // addr
       length,               // length
@@ -143,12 +143,13 @@ auto Conn::postRead(void *ctx, void *local_addr, uint32_t length, uint32_t lkey,
   };
   ibv_send_wr *bad = nullptr;
   auto ret = ibv_post_send(qp_, &wr, &bad);
-  check(ret, "fail to post read");
+  // check(ret, "fail to post read");
+  return ret;
 }
 
 auto Conn::postWrite(void *ctx, void *local_addr, uint32_t length,
                      uint32_t lkey, void *remote_addr, uint32_t rkey,
-                     bool need_inline) -> void {
+                     bool need_inline) -> int {
   //info("[INFO] now use write");
   ibv_sge sge{
       (uint64_t)local_addr, // addr
@@ -177,7 +178,8 @@ auto Conn::postWrite(void *ctx, void *local_addr, uint32_t length,
   }
   ibv_send_wr *bad = nullptr;
   auto ret = ibv_post_send(qp_, &wr, &bad);
-  check(ret, "fail to post write");
+  // check(ret, "fail to post write");
+  return ret;
 }
 
 auto Conn::postWriteImm(void *ctx, void *local_addr, uint32_t length,

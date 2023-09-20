@@ -67,10 +67,10 @@ public:
   auto postSend(void *ctx, void *local_addr, uint32_t length, uint32_t lkey,
                 bool need_inline = false) -> void;
   auto postRead(void *ctx, void *local_addr, uint32_t length, uint32_t lkey,
-                void *remote_addr, uint32_t rkey) -> void;
+                void *remote_addr, uint32_t rkey) -> int;
   auto postWrite(void *ctx, void *local_addr, uint32_t length, uint32_t lkey,
                  void *remote_addr, uint32_t rkey, bool need_inline = false)
-      -> void;
+      -> int;
   auto postWriteImm(void *ctx, void *local_addr, uint32_t length, uint32_t lkey,
                     void *remote_addr, uint32_t rkey, uint32_t imm) -> void;
 
