@@ -60,7 +60,7 @@ auto main([[gnu::unused]] int argc, char *argv[]) -> int {
   w_info.set_data((uint64_t)(uintptr_t)write_buff);
   w_info.set_size(6);
   w_info.set_origin_key(m_ifo_1.remote_buffer_key_);
-  rdma::Status s;
+  rdma::Status s = rdma::Status::None();
   if(s.none()) {
     std::cout << "None!" << std::endl;
   }
