@@ -61,6 +61,9 @@ auto main([[gnu::unused]] int argc, char *argv[]) -> int {
   w_info.set_size(6);
   w_info.set_origin_key(m_ifo_1.remote_buffer_key_);
   rdma::Status s;
+  if(s.none()) {
+    std::cout << "None!" << std::endl;
+  }
   s = c.call(conn_id_1, 0, w_info, response);
   if(not s.ok()) {
     std::cout << s.whatHappened() << std::endl;
