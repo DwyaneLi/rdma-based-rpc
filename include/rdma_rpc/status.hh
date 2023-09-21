@@ -30,6 +30,8 @@ private:
 public:
   auto ok() -> bool { return code_ == kOk; }
 
+  auto none() -> bool {return code_ == kNone; }
+  
 public:
 #define StatusName(what) what##Msg
 #define StatusMessage(what)                                                    \
