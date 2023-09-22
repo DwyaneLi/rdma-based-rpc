@@ -25,6 +25,7 @@ enum MessageType : uint32_t {
   Response,
 };
 
+
 class [[gnu::packed]] MessageHeader {
 public:
   void *addr_{nullptr};
@@ -33,6 +34,8 @@ public:
   uint32_t rpc_id_{0};
   MessageType type_{Dummy};
 };
+
+constexpr static size_t  MessageHeader_SIZE = sizeof(MessageHeader);
 
 class ConnCtx : public RPCHandle {
 public:
