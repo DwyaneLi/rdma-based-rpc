@@ -14,6 +14,7 @@
 #include <rdma/rdma_cma.h>
 #include <thread>
 
+#include "context.hh"
 namespace rdma {
 
 struct Mr_info
